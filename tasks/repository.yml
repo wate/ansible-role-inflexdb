@@ -1,0 +1,18 @@
+---
+- name: install dependency packages
+  apt:
+    update_cache: true
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+- name: add apt signing key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+- name: Add influxdb repository
+  apt_repository:
+    filename: influxdb
+    repo: deb https://repos.influxdata.com/debian {{ ansible_facts.distribution_release }} stable
+    state: present

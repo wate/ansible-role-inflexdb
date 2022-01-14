@@ -1,0 +1,32 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  check_mode: true
+  tasks:
+    - name: test apt signing key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        state: present
+      register: result
+    - name: assert apt signing key
+      assert:
+        that: result is not changed
+    - name: test influxdb repository
+      apt_repository:
+        filename: influxdb
+        repo: deb https://repos.influxdata.com/debian {{ ansible_facts.distribution_release }} stable
+        state: present
+      register: result
+    - name: assert influxdb repository
+      assert:
+        that: result is not changed
+    # - name: test influxdb service
+    #   systemd:
+    #     name: influxdb
+    #     state: started
+    #     enabled: true
+    #   register: result
+    # - name: assert influxdb service
+    #   assert:
+    #     that: result is not changed

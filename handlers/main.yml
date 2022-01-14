@@ -1,0 +1,9 @@
+---
+- name: restart inflexdb
+  systemd:
+    state: restarted
+    name: inflexdb
+- name: reload inflexdb
+  systemd:
+    state: reloaded
+    name: inflexdb

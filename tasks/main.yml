@@ -1,0 +1,12 @@
+---
+- name: add repository
+  import_tasks: repository.yml
+  tags: repository
+- name: install influxdb
+  apt:
+    name: influxdb2
+- name: influxdb is active and enabled on system startup
+  systemd:
+    name: influxdb
+    state: started
+    enabled: true
