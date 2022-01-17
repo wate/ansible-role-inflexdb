@@ -23,7 +23,7 @@
         that: result is not changed
     - name: test package
       apt:
-        name: unflexdb2
+        name: influxdb2
       register: result
     - name: assert package
       assert:
