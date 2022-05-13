@@ -1,12 +1,12 @@
 ---
 - name: add repository
-  import_tasks: repository.yml
+  ansible.builtin.import_tasks: repository.yml
   tags: repository
 - name: install influxdb
-  apt:
+  ansible.builtin.apt:
     name: influxdb2
 - name: influxdb is active and enabled on system startup
-  systemd:
+  ansible.builtin.systemd:
     name: influxdb
     state: started
     enabled: true
