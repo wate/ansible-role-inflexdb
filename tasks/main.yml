@@ -1,9 +1,4 @@
 ---
-- name: import repository task
-  ansible.builtin.import_tasks:
-    file: repository.yml
-  tags:
-    - role_influxdb_repository
 - name: import package task
   ansible.builtin.import_tasks:
     file: package.yml

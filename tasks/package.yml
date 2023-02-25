@@ -1,4 +1,23 @@
 ---
+- name: Set Install version variable
+  when: influxdb_version == 'latest'
+  block:
+    - name: Get osv-scanner latest version
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/influxdata/influxdb/releases/latest
+        headers:
+          Accept: application/vnd.github+json
+      register: latest_releases
+    - name: Set osv_scanner_version variable
+      ansible.builtin.set_fact:
+        influxdb_version: "{{ latest_releases.json.tag_name }}"
+- name: set download file variable
+  ansible.builtin.set_fact:
+    influxdb_package_file: influxdb2-{{ influxdb_version[1:] }}-{{ architecture_types[ansible_facts['architecture']] }}.deb
+  vars:
+    architecture_types:
+      x86_64: amd64
+      aarch64: arm64
 - name: install influxdb
   ansible.builtin.apt:
-    name: influxdb2
+    deb: https://dl.influxdata.com/influxdb/releases/{{ influxdb_package_file }}

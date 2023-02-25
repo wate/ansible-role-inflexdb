@@ -3,37 +3,34 @@
   hosts: all
   gather_facts: true
   check_mode: true
+  become: true
   tasks:
-    - name: test apt signing key
-      ansible.builtin.apt_key:
-        url: https://repos.influxdata.com/influxdb.key
-        state: present
-      register: result
-    - name: assert apt signing key
+    ## パッケージのテスト
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: auto
+    - name: Assert package
       ansible.builtin.assert:
-        that: result is not changed
-    - name: test repository
-      ansible.builtin.apt_repository:
-        filename: influxdb
-        repo: deb https://repos.influxdata.com/debian {{ ansible_facts.distribution_release }} stable
-        state: present
-      register: result
-    - name: assert repository
+        that:
+          - ansible_facts.packages['influxdb2']
+    ## サービスのテスト
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+    - name: Assert service
       ansible.builtin.assert:
-        that: result is not changed
-    - name: test package
-      ansible.builtin.apt:
-        name: influxdb2
-      register: result
-    - name: assert package
+        that:
+          - ansible_facts.services['influxdb.service']
+          - ansible_facts.services['influxdb.service']['state'] == 'running'
+          - ansible_facts.services['influxdb.service']['status'] == 'enabled'
+    ## 待受ポートのテスト
+    - name: Gather facts on listening ports
+      community.general.listen_ports_facts:
+        command: ss
+    - name: Set assert variables
+      ansible.builtin.set_fact:
+        listen_tcp_posts: "{{ ansible_facts.tcp_listen | map(attribute='port') | unique | list }}"
+        listen_udp_posts: "{{ ansible_facts.udp_listen | map(attribute='port') | unique | list }}"
+    - name: Assert listen port
       ansible.builtin.assert:
-        that: result is not changed
-    # - name: test service
-    #   ansible.builtin.systemd:
-    #     name: influxdb
-    #     state: started
-    #     enabled: true
-    #   register: result
-    # - name: assert service
-    #   ansible.builtin.assert:
-    #     that: result is not changed
+        that:
+          - 8086 in listen_tcp_posts
