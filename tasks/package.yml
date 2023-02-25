@@ -1,0 +1,4 @@
+---
+- name: install influxdb
+  ansible.builtin.apt:
+    name: influxdb2

@@ -1,0 +1,6 @@
+---
+- name: Service influxdb is active and enabled on system startup
+  ansible.builtin.systemd:
+    name: influxdb
+    state: started
+    enabled: true
