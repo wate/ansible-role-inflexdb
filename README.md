@@ -1,7 +1,7 @@
 influxdb
 =================
 
-setup influxdb
+Setup InfluxDB(work in progress)
 
 OS Platform
 -----------------

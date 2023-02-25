@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: influxdb
   author: yoshiaki tanaka
-  description: setup influxdb
+  description: Setup InfluxDB(work in progress)
   license: Apache
   min_ansible_version: "2.13"
   platforms:
