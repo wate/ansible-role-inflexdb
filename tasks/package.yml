@@ -2,13 +2,13 @@
 - name: Set Install version variable
   when: influxdb_version == 'latest'
   block:
-    - name: Get osv-scanner latest version
+    - name: Get influxdb latest version
       ansible.builtin.uri:
         url: https://api.github.com/repos/influxdata/influxdb/releases/latest
         headers:
           Accept: application/vnd.github+json
       register: latest_releases
-    - name: Set osv_scanner_version variable
+    - name: Set influxdb_version variable
       ansible.builtin.set_fact:
         influxdb_version: "{{ latest_releases.json.tag_name }}"
 - name: set download file variable
