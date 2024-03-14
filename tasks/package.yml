@@ -23,7 +23,7 @@
         influxdb_version: "{{ latest_releases.json.tag_name }}"
 - name: set download file variable
   ansible.builtin.set_fact:
-    influxdb_package_file: influxdb2-{{ influxdb_version[1:] }}-{{ architecture_types[ansible_facts['architecture']] }}.deb
+    influxdb_package_file: influxdb2_{{ influxdb_version[1:] }}-1_{{ architecture_types[ansible_facts['architecture']] }}.deb
   vars:
     architecture_types:
       x86_64: amd64
