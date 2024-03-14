@@ -1,9 +1,9 @@
 ---
 - name: restart inflexdb
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: restarted
     name: inflexdb
 - name: reload inflexdb
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: reloaded
     name: inflexdb
