@@ -14,9 +14,11 @@ OS Platform
 Role Variables
 --------------
 
-設定方法の詳細については[defaults/main.yml](defaults/main.yml)のサンプルコードを参照してください。
+### [defaults/main.yml](defaults/main.yml)
 
-### `influxdb_version`
+設定方法の詳細については[defaults/main.yml](defaults/main.yml)のサンプルコードなどを参照してください。
+
+#### `influxdb_version`
 
 Example Playbook
 --------------
